@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { playPop } from "@/lib/popSound";
 
 export function Bubble({ name }: { name: string }) {

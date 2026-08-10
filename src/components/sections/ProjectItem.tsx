@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProjectVisual } from "@/components/sections/ProjectVisual";
 import type { Project } from "@/data/projects";

@@ -21,8 +21,8 @@ export const projects: Project[] = [
     description:
       "A resource hub for a college's CSE branches — notes, lab manuals, previous year questions, notices and platform-wide updates. Access is gated by a student / CR / admin permission model enforced entirely through Postgres Row-Level Security, not application code.",
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL"],
-    github: "https://github.com/anuragkumar",
-    live: "https://sancturm.example.com",
+    github: "https://github.com/boltzman936/sancturm",
+    live: "https://sancturm.vercel.app",
     layout: "full",
   },
   {
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     description:
       "Replace with a short, specific description of what this project does, who it's for, and the one decision that made it hard.",
     technologies: ["Next.js", "TypeScript"],
-    github: "https://github.com/anuragkumar",
+    github: "https://github.com/boltzman936",
     layout: "split",
     draft: true,
   },
@@ -43,7 +43,7 @@ export const projects: Project[] = [
     description:
       "Replace with a short, specific description of what this project does, who it's for, and the one decision that made it hard.",
     technologies: ["Python", "React"],
-    github: "https://github.com/anuragkumar",
+    github: "https://github.com/boltzman936",
     layout: "offset",
     draft: true,
   },
@@ -54,7 +54,7 @@ export const projects: Project[] = [
     description:
       "Replace with a short, specific description of what this project does, who it's for, and the one decision that made it hard.",
     technologies: ["Node.js", "Express", "MongoDB"],
-    github: "https://github.com/anuragkumar",
+    github: "https://github.com/boltzman936",
     layout: "full",
     draft: true,
   },

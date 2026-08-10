@@ -6,7 +6,7 @@ export const site = {
   education: "B.TECH CSE · AI/ML",
   email: "anuragkumarcode1@gmail.com",
   social: {
-    github: "https://github.com/anuragkumar",
+    github: "https://github.com/boltzman936",
     linkedin: "https://linkedin.com/in/anuragkumar",
     x: "https://x.com/anuragkumar",
   },
