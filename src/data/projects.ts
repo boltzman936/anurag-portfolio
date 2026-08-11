@@ -27,35 +27,11 @@ export const projects: Project[] = [
   },
   {
     number: "02",
-    title: "ADD PROJECT NAME",
+    title: "AVON TRADER",
     year: "2025",
     description:
-      "Replace with a short, specific description of what this project does, who it's for, and the one decision that made it hard.",
-    technologies: ["Next.js", "TypeScript"],
-    github: "https://github.com/boltzman936",
+      "A marketing site for Avon Trader, an HVAC contractor delivering heating, ventilation, air conditioning, refrigeration and maintenance solutions for commercial, industrial and residential projects across Lucknow — built to read as a decade-old engineering firm, not a template.",
+    technologies: ["HTML", "CSS", "JavaScript"],
     layout: "split",
-    draft: true,
-  },
-  {
-    number: "03",
-    title: "ADD PROJECT NAME",
-    year: "2025",
-    description:
-      "Replace with a short, specific description of what this project does, who it's for, and the one decision that made it hard.",
-    technologies: ["Python", "React"],
-    github: "https://github.com/boltzman936",
-    layout: "offset",
-    draft: true,
-  },
-  {
-    number: "04",
-    title: "ADD PROJECT NAME",
-    year: "2024",
-    description:
-      "Replace with a short, specific description of what this project does, who it's for, and the one decision that made it hard.",
-    technologies: ["Node.js", "Express", "MongoDB"],
-    github: "https://github.com/boltzman936",
-    layout: "full",
-    draft: true,
   },
 ];

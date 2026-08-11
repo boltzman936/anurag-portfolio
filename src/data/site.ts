@@ -7,7 +7,8 @@ export const site = {
   email: "anuragkumarcode1@gmail.com",
   social: {
     github: "https://github.com/boltzman936",
-    linkedin: "https://linkedin.com/in/anuragkumar",
+    linkedin:
+      "https://www.linkedin.com/in/anurag-kumar-9837443b5?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     x: "https://x.com/anuragkumar",
   },
   activity: {
