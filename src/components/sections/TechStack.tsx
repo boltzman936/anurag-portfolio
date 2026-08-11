@@ -1,3 +1,4 @@
+import { Layers } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
@@ -12,7 +13,12 @@ export function TechStack() {
         </Reveal>
 
         <Reveal delay={0.05}>
-          <h2 className="mt-6 max-w-2xl text-3xl leading-[1.08] font-medium tracking-tight text-fg sm:text-4xl md:mt-8 md:text-5xl">
+          <h2 className="mt-6 flex max-w-2xl items-center gap-4 text-4xl leading-[1.08] font-medium tracking-tight text-fg sm:text-5xl md:mt-8 md:text-6xl">
+            <Layers
+              className="h-8 w-8 shrink-0 text-fg sm:h-10 sm:w-10 md:h-12 md:w-12"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
             Tools I build with.
           </h2>
         </Reveal>

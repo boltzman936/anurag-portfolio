@@ -9,7 +9,12 @@ function getContext() {
         .webkitAudioContext;
     ctx = new Ctor();
   }
-  if (ctx.state === "suspended") ctx.resume();
+  // Always attempt resume — safe no-op if already running, required on
+  // browsers (notably iOS Safari) that suspend the context until a
+  // user gesture explicitly wakes it, even ones after the first.
+  if (ctx.state !== "running") {
+    void ctx.resume();
+  }
   return ctx;
 }
 
@@ -31,8 +36,8 @@ export function playNote(midi: number) {
   const freq = midiToFreq(midi);
 
   const master = audio.createGain();
-  master.gain.setValueAtTime(0, now);
-  master.gain.linearRampToValueAtTime(0.5, now + 0.006);
+  master.gain.setValueAtTime(0.0001, now);
+  master.gain.linearRampToValueAtTime(0.7, now + 0.006);
   master.gain.exponentialRampToValueAtTime(0.001, now + 2.4);
 
   const filter = audio.createBiquadFilter();
@@ -79,4 +84,9 @@ export function playNote(midi: number) {
   noise.connect(noiseGain).connect(audio.destination);
   noise.start(now);
   noise.stop(now + 0.02);
+}
+
+/** Unlocks audio on iOS/Safari by resuming inside the very first gesture. */
+export function primeAudio() {
+  getContext();
 }

@@ -8,11 +8,12 @@ export function Piano() {
 
   return (
     <div
-      className="relative overflow-x-auto border border-border bg-[#0a0a0a] p-3 sm:p-4"
+      className="relative overflow-x-auto border border-border bg-[#0a0a0a] p-4 sm:p-6 md:p-8"
+      style={{ perspective: "1400px" }}
       role="group"
       aria-label="Tech stack piano — press a key to play it"
     >
-      <div className="relative flex h-36 min-w-[640px] sm:h-44 md:h-52">
+      <div className="relative flex h-56 min-w-[760px] sm:h-64 md:h-80">
         {whiteKeys.map((key) => (
           <PianoKey key={key.midi} midi={key.midi} label={key.label} variant="white" />
         ))}
