@@ -2,7 +2,7 @@ import { Layers } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
-import { Piano } from "@/components/sections/Piano";
+import { TechStackPiano } from "@/components/sections/TechStackPiano";
 
 export function TechStack() {
   return (
@@ -23,14 +23,20 @@ export function TechStack() {
           </h2>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.08}>
+          <p className="mt-4 max-w-md text-sm text-secondary md:text-base">
+            Each key on this piano is a technology I use. Play one.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.12}>
           <div className="mt-10 md:mt-12">
-            <Piano />
+            <TechStackPiano />
           </div>
         </Reveal>
 
         <p className="mt-4 font-mono text-[10px] tracking-[0.15em] text-muted uppercase">
-          Every key plays. Try one.
+          Every key plays — click, tap, or press 1–9, 0, - =.
         </p>
       </Container>
     </section>
