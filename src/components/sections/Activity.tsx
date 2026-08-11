@@ -17,7 +17,7 @@ export function Activity() {
   const weeks = getContributionWeeks();
 
   return (
-    <section className="border-t border-border py-28 md:py-40">
+    <section className="border-t border-border py-16 md:py-24">
       <Container>
         <Reveal>
           <SectionLabel index="04" label="Activity" />
@@ -46,14 +46,14 @@ export function Activity() {
 
         <Reveal delay={0.15}>
           <div className="no-scrollbar mt-12 overflow-x-auto pb-2">
-            <div className="flex w-max gap-[3px]">
+            <div className="flex w-max gap-[5px]">
               {weeks.map((week, wi) => (
-                <div key={wi} className="flex flex-col gap-[3px]">
+                <div key={wi} className="flex flex-col gap-[5px]">
                   {week.map((level, di) => (
                     <span
                       key={di}
                       className={cn(
-                        "h-[10px] w-[10px] rounded-[2px] border border-border/60",
+                        "h-[16px] w-[16px] rounded-[3px] border border-border/60 md:h-[18px] md:w-[18px]",
                         levelOpacity[level],
                       )}
                       aria-hidden="true"
@@ -64,12 +64,12 @@ export function Activity() {
             </div>
           </div>
 
-          <div className="mt-4 flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] text-muted uppercase">
+          <div className="mt-5 flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] text-muted uppercase">
             <span>Less</span>
             {levelOpacity.map((c, i) => (
               <span
                 key={i}
-                className={cn("h-[10px] w-[10px] rounded-[2px] border border-border/60", c)}
+                className={cn("h-[16px] w-[16px] rounded-[3px] border border-border/60", c)}
               />
             ))}
             <span>More</span>

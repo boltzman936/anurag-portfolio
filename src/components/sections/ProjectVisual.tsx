@@ -10,7 +10,7 @@ export function ProjectVisual({
   return (
     <div
       className={cn(
-        "relative aspect-[16/10] w-full overflow-hidden border border-border bg-[#0a0a0a]",
+        "relative aspect-[16/7] w-full overflow-hidden border border-border bg-[#0a0a0a]",
         className,
       )}
       aria-hidden="true"
@@ -27,7 +27,7 @@ export function ProjectVisual({
         </defs>
         <rect width="400" height="250" fill={`url(#diag-${number})`} />
       </svg>
-      <span className="absolute right-5 bottom-4 font-mono text-6xl leading-none font-medium text-fg/[0.06] select-none sm:text-8xl">
+      <span className="absolute right-5 bottom-4 font-mono text-4xl leading-none font-medium text-fg/[0.06] select-none sm:text-6xl">
         {number}
       </span>
     </div>

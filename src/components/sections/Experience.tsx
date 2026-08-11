@@ -5,7 +5,7 @@ import { experience } from "@/data/experience";
 
 export function Experience() {
   return (
-    <section className="border-t border-border py-28 md:py-40">
+    <section className="border-t border-border py-16 md:py-24">
       <Container>
         <Reveal>
           <SectionLabel index="05" label="Experience" />

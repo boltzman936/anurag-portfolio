@@ -12,7 +12,7 @@ const details = [
 
 export function About() {
   return (
-    <section id="about" className="border-t border-border py-28 md:py-40">
+    <section id="about" className="border-t border-border py-16 md:py-24">
       <Container>
         <Reveal>
           <SectionLabel index="01" label="About" />

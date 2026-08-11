@@ -12,7 +12,7 @@ const socials = [
 
 export function Contact() {
   return (
-    <section id="contact" className="border-t border-border py-28 md:py-44">
+    <section id="contact" className="border-t border-border py-16 md:py-28">
       <Container>
         <Reveal>
           <SectionLabel index="06" label="Contact" />

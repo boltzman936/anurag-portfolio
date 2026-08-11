@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 function Meta({ project }: { project: Project }) {
   return (
-    <div className="flex flex-col justify-between gap-8">
+    <div className="flex flex-col justify-between gap-4">
       <div>
         <div className="flex items-baseline gap-4">
           <span className="font-mono text-xs text-muted">
@@ -19,20 +19,20 @@ function Meta({ project }: { project: Project }) {
           </span>
         </div>
 
-        <h3 className="mt-3 text-3xl font-medium tracking-tight text-fg sm:text-4xl md:text-[2.75rem]">
+        <h3 className="mt-2 text-2xl font-medium tracking-tight text-fg sm:text-3xl md:text-4xl">
           {project.title}
         </h3>
 
-        <p className="mt-5 max-w-md text-base leading-relaxed text-secondary">
+        <p className="mt-3 max-w-md text-sm leading-relaxed text-secondary md:text-base">
           {project.description}
         </p>
 
-        <p className="mt-6 font-mono text-[11px] tracking-[0.1em] text-muted">
+        <p className="mt-4 font-mono text-[11px] tracking-[0.1em] text-muted">
           {project.technologies.join(" · ")}
         </p>
       </div>
 
-      <div className="flex items-center gap-6 font-mono text-xs tracking-[0.1em] uppercase">
+      <div className="mt-6 flex items-center gap-6 font-mono text-xs tracking-[0.1em] uppercase">
         {project.github && (
           <a
             href={project.github}
@@ -86,7 +86,7 @@ export function ProjectItem({ project }: { project: Project }) {
   if (project.layout === "split") {
     return (
       <Reveal>
-        <article className="grid grid-cols-1 items-stretch gap-8 py-20 md:grid-cols-2 md:gap-16 md:py-28">
+        <article className="grid grid-cols-1 items-center gap-6 py-10 md:grid-cols-2 md:gap-10 md:py-14">
           <Visual project={project} />
           <Meta project={project} />
         </article>
@@ -97,11 +97,11 @@ export function ProjectItem({ project }: { project: Project }) {
   if (project.layout === "offset") {
     return (
       <Reveal>
-        <article className="grid grid-cols-1 gap-8 py-20 md:grid-cols-12 md:gap-6 md:py-28">
+        <article className="grid grid-cols-1 gap-6 py-10 md:grid-cols-12 md:gap-6 md:py-14">
           <div className="md:col-span-5 md:col-start-1">
             <Meta project={project} />
           </div>
-          <div className="md:col-span-6 md:col-start-7 md:mt-16">
+          <div className="md:col-span-6 md:col-start-7 md:mt-6">
             <Visual project={project} />
           </div>
         </article>
@@ -113,7 +113,7 @@ export function ProjectItem({ project }: { project: Project }) {
     <Reveal>
       <article
         className={cn(
-          "flex flex-col gap-10 py-20 md:py-28",
+          "flex flex-col gap-6 py-10 md:py-14",
           project.draft && "opacity-90",
         )}
       >
