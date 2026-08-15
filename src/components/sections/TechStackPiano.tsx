@@ -173,7 +173,7 @@ export function TechStackPiano() {
           style={{ perspective: "2000px" }}
         >
           <div
-            className="relative mx-auto flex h-48 min-w-[680px] justify-center gap-[3px] px-2 sm:h-64 sm:min-w-[860px] md:h-80 md:gap-[4px] lg:h-[22rem]"
+            className="relative flex h-48 w-max min-w-full items-stretch justify-start gap-[3px] px-2 sm:h-64 md:h-80 md:gap-[4px] lg:h-[22rem]"
             style={{
               transformStyle: "preserve-3d",
               transform: "rotateX(24deg)",

@@ -247,8 +247,8 @@ export const PianoKey = forwardRef<PianoKeyHandle, PianoKeyProps>(function Piano
         {label && (
           <span
             className={cn(
-              "pointer-events-none relative z-10 px-1 text-center leading-[1.15] font-semibold tracking-tight text-[#161616] transition-colors duration-200",
-              "text-[13px] sm:text-[15px] md:text-[18px] lg:text-[20px] xl:text-[22px]",
+              "pointer-events-none relative z-10 w-full min-w-0 px-1 text-center leading-[1.15] font-semibold tracking-tight break-words text-[#161616] transition-colors duration-200",
+              "text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[19px]",
               active ? "text-opacity-100" : "text-opacity-75",
             )}
             style={{ color: active ? "#111111" : "#3a3a3a" }}
