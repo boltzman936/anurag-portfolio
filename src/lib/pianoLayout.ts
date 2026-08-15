@@ -1,6 +1,7 @@
 import type { Technology } from "@/data/technologies";
 
 export interface PianoKeyData {
+  id: string;
   midi: number;
   label: string;
   /** index among white keys only, used for horizontal positioning */
@@ -28,11 +29,17 @@ export function buildPianoLayout(technologies: Technology[]) {
     const octave = Math.floor(i / 7);
     const stepIndex = i % 7;
     const midi = baseMidi + octave * 12 + WHITE_STEPS[stepIndex];
-    whiteKeys.push({ midi, label: tech.name, whiteIndex: i, shortcut: SHORTCUTS[i] });
+    whiteKeys.push({
+      id: `w-${midi}`,
+      midi,
+      label: tech.name,
+      whiteIndex: i,
+      shortcut: SHORTCUTS[i],
+    });
 
     const isLastKey = i === technologies.length - 1;
     if (!isLastKey && HAS_BLACK_AFTER[stepIndex]) {
-      blackKeys.push({ midi: midi + 1, label: "", whiteIndex: i });
+      blackKeys.push({ id: `b-${midi + 1}`, midi: midi + 1, label: "", whiteIndex: i });
     }
   });
 

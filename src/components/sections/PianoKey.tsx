@@ -1,33 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { playNote } from "@/lib/pianoSound";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { playNote } from "@/lib/audioEngine";
 import { cn } from "@/lib/utils";
 
+export interface PianoKeyHandle {
+  trigger: () => void;
+}
+
 interface PianoKeyProps {
+  id: string;
   midi: number;
   label?: string;
   variant: "white" | "black";
   shortcut?: string;
-  onPlay?: (label: string) => void;
 }
+
+const WHITE_THICKNESS = 20;
+const BLACK_THICKNESS = 16;
 
 function isTypingTarget(el: EventTarget | null) {
   if (!(el instanceof HTMLElement)) return false;
-  return (
-    el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable
-  );
+  return el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable;
 }
 
-export function PianoKey({ midi, label, variant, shortcut, onPlay }: PianoKeyProps) {
+export const PianoKey = forwardRef<PianoKeyHandle, PianoKeyProps>(function PianoKey(
+  { id, midi, label, variant, shortcut },
+  ref,
+) {
   const [pressed, setPressed] = useState(false);
+  const releaseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const press = () => {
     setPressed(true);
     playNote(midi);
-    if (label) onPlay?.(label);
   };
   const release = () => setPressed(false);
+
+  // programmatic trigger for parent-orchestrated glide/drag play
+  useImperativeHandle(ref, () => ({
+    trigger: () => {
+      press();
+      if (releaseTimer.current) clearTimeout(releaseTimer.current);
+      releaseTimer.current = setTimeout(release, 110);
+    },
+  }));
+
+  useEffect(() => {
+    return () => {
+      if (releaseTimer.current) clearTimeout(releaseTimer.current);
+    };
+  }, []);
 
   // computer-keyboard playability, independent of DOM focus
   useEffect(() => {
@@ -55,7 +78,7 @@ export function PianoKey({ midi, label, variant, shortcut, onPlay }: PianoKeyPro
 
   const ariaLabel = label ? `${label} — play` : "Play note";
 
-  const handlers = {
+  const directHandlers = {
     onPointerDown: press,
     onPointerUp: release,
     onPointerCancel: release,
@@ -76,27 +99,44 @@ export function PianoKey({ midi, label, variant, shortcut, onPlay }: PianoKeyPro
       <button
         type="button"
         aria-label={ariaLabel}
+        data-piano-key="black" data-key-id={id}
         style={{
-          touchAction: "manipulation",
+          touchAction: "none",
+          transformStyle: "preserve-3d",
           transform: pressed
-            ? "translateZ(9px) translateY(10px)"
-            : "translateZ(20px) translateY(-2px)",
+            ? "translateZ(10px)"
+            : "translateZ(24px)",
+          transition: "transform 90ms cubic-bezier(.2,.7,.3,1)",
         }}
-        {...handlers}
-        className={cn(
-          "block h-[56%] w-full rounded-b-[5px] border border-black transition-transform duration-100 ease-out will-change-transform",
-          pressed
-            ? "bg-gradient-to-b from-[#2e2e2e] to-[#050505] shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-            : "bg-gradient-to-b from-[#3d3d3d] via-[#151515] to-[#020202] shadow-[0_10px_14px_-2px_rgba(0,0,0,0.85)]",
-        )}
+        {...directHandlers}
+        className="block h-[56%] w-full will-change-transform"
       >
+        {/* top surface */}
         <span
-          className="pointer-events-none absolute inset-x-[18%] top-[12%] h-[3px] rounded-full bg-white/20"
-          aria-hidden="true"
-        />
+          className="absolute inset-0 rounded-[3px]"
+          style={{
+            transform: `translateZ(${BLACK_THICKNESS}px)`,
+            background: pressed
+              ? "linear-gradient(160deg, #1c1c1c 0%, #050505 70%)"
+              : "linear-gradient(160deg, #3a3a3a 0%, #131313 55%, #030303 100%)",
+          }}
+        >
+          <span
+            className="absolute inset-x-[20%] top-[10%] h-[2px] rounded-full bg-white/25"
+            aria-hidden="true"
+          />
+        </span>
+
+        {/* front face — thin physical edge */}
         <span
-          className="pointer-events-none absolute inset-0 rounded-b-[5px] bg-gradient-to-r from-transparent via-white/[0.03] to-transparent"
-          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 rounded-b-[3px]"
+          style={{
+            height: BLACK_THICKNESS,
+            transformOrigin: "top",
+            transform: `rotateX(-90deg) translateZ(${BLACK_THICKNESS}px)`,
+            background: "linear-gradient(180deg, #0e0e0e, #000)",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.8)",
+          }}
         />
       </button>
     );
@@ -106,64 +146,80 @@ export function PianoKey({ midi, label, variant, shortcut, onPlay }: PianoKeyPro
     <button
       type="button"
       aria-label={ariaLabel}
+      data-piano-key="white" data-key-id={id}
       style={{
-        touchAction: "manipulation",
-        transform: pressed ? "translateZ(-4px) translateY(6px)" : "translateZ(0)",
+        touchAction: "none",
+        transformStyle: "preserve-3d",
+        transform: pressed ? "translateZ(-6px)" : "translateZ(0)",
+        transition: "transform 90ms cubic-bezier(.2,.7,.3,1)",
       }}
-      {...handlers}
-      className={cn(
-        "group relative flex min-w-[52px] flex-1 flex-col overflow-hidden border-r border-[#c4c4c4] transition-transform duration-100 ease-out will-change-transform last:border-r-0",
-      )}
+      {...directHandlers}
+      className="group relative min-w-[46px] flex-1 will-change-transform sm:min-w-[60px]"
     >
-      {/* ivory top surface */}
+      {/* top surface — carries the label in its lower/front region */}
       <span
-        className={cn(
-          "flex-1 bg-gradient-to-b transition-colors duration-100",
-          pressed
-            ? "from-[#dcdcdc] via-[#d2d2d2] to-[#c4c4c4]"
-            : "from-white via-[#fbfbfb] to-[#e6e6e6]",
-        )}
-        aria-hidden="true"
+        className="absolute inset-0 flex flex-col justify-end overflow-hidden rounded-[2px] border-r border-black/10 pb-[10%]"
+        style={{
+          transform: `translateZ(${WHITE_THICKNESS}px)`,
+          background: pressed
+            ? "linear-gradient(175deg, #e2e0dc 0%, #d3d0ca 100%)"
+            : "linear-gradient(175deg, #fdfcfa 0%, #f4f2ee 55%, #e5e2dc 100%)",
+        }}
       >
         {/* soft diagonal sheen */}
         <span
-          className="block h-full w-full opacity-[0.35]"
+          className="pointer-events-none absolute inset-0 opacity-[0.5]"
           style={{
             background:
-              "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.8) 48%, transparent 62%)",
+              "linear-gradient(118deg, transparent 30%, rgba(255,255,255,0.9) 45%, transparent 58%)",
           }}
         />
-      </span>
+        {/* ambient occlusion where the black keys hang above */}
+        <span
+          className="pointer-events-none absolute inset-x-0 top-0 h-[42%] bg-gradient-to-b from-black/[0.09] to-transparent"
+          aria-hidden="true"
+        />
 
-      {/* seam shadow separating top surface from front face */}
-      <span
-        className="pointer-events-none absolute inset-x-0 h-2 bg-gradient-to-b from-black/15 to-transparent"
-        style={{ top: "78%" }}
-        aria-hidden="true"
-      />
-
-      {/* dark front face — carries the label, never touched by black keys */}
-      <span
-        className={cn(
-          "flex h-[22%] flex-col items-center justify-center gap-0.5 bg-gradient-to-b transition-colors duration-100",
-          pressed ? "from-[#0a0a0a] to-black" : "from-[#1c1c1c] to-[#020202]",
-        )}
-      >
         {label && (
-          <span className="pointer-events-none px-1 text-center font-mono text-[9px] leading-[1.15] font-semibold tracking-tight text-white/85 uppercase sm:text-[10px] md:text-[11px]">
+          <span className="pointer-events-none relative z-10 px-1.5 text-center font-mono text-[9.5px] leading-[1.2] font-semibold tracking-tight text-[#1a1a1a]/80 uppercase sm:text-[11px] md:text-[12px]">
             {label}
           </span>
         )}
       </span>
 
-      {/* pressed-state accent line under the label */}
+      {/* front face — physical edge thickness, no text */}
+      <span
+        className="absolute inset-x-0 bottom-0 border-x border-b border-black/10"
+        style={{
+          height: WHITE_THICKNESS,
+          transformOrigin: "top",
+          transform: `rotateX(-90deg) translateZ(${WHITE_THICKNESS}px)`,
+          background: pressed
+            ? "linear-gradient(180deg, #c9c6c0, #b7b4ad)"
+            : "linear-gradient(180deg, #ece9e3, #cfccc5)",
+        }}
+      />
+
+      {/* right seam — visible separation between neighboring keys */}
+      <span
+        className="absolute top-0 right-0 h-full"
+        style={{
+          width: WHITE_THICKNESS,
+          transformOrigin: "left",
+          transform: `rotateY(90deg) translateZ(${WHITE_THICKNESS}px)`,
+          background: "linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.32))",
+        }}
+      />
+
+      {/* pressed accent under the label */}
       <span
         className={cn(
-          "pointer-events-none absolute inset-x-[30%] bottom-0 h-[2px] bg-white transition-opacity duration-150",
-          pressed ? "opacity-70" : "opacity-0",
+          "pointer-events-none absolute inset-x-[32%] bottom-[6%] h-[2px] rounded-full bg-[#1a1a1a] transition-opacity duration-150",
+          pressed ? "opacity-40" : "opacity-0",
         )}
+        style={{ transform: `translateZ(${WHITE_THICKNESS + 1}px)` }}
         aria-hidden="true"
       />
     </button>
   );
-}
+});
