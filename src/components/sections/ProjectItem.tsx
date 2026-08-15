@@ -1,10 +1,40 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProjectVisual } from "@/components/sections/ProjectVisual";
+import { highlightTechs } from "@/lib/pianoHighlightBus";
 import type { Project } from "@/data/projects";
 import { cn } from "@/lib/utils";
+
+/** briefly highlights matching piano keys when a project scrolls into view — visual only, no audio */
+function useTechHighlight(technologies: string[]) {
+  const ref = useRef<HTMLElement>(null);
+  const lastFired = useRef(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const now = Date.now();
+        if (entry.isIntersecting && now - lastFired.current > 3000) {
+          lastFired.current = now;
+          highlightTechs(technologies);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return ref;
+}
 
 function Meta({ project }: { project: Project }) {
   return (
@@ -83,10 +113,15 @@ function Visual({ project }: { project: Project }) {
 }
 
 export function ProjectItem({ project }: { project: Project }) {
+  const highlightRef = useTechHighlight(project.technologies);
+
   if (project.layout === "split") {
     return (
       <Reveal>
-        <article className="grid grid-cols-1 items-center gap-6 py-10 md:grid-cols-2 md:gap-10 md:py-14">
+        <article
+          ref={highlightRef}
+          className="grid grid-cols-1 items-center gap-6 py-10 md:grid-cols-2 md:gap-10 md:py-14"
+        >
           <Visual project={project} />
           <Meta project={project} />
         </article>
@@ -97,7 +132,10 @@ export function ProjectItem({ project }: { project: Project }) {
   if (project.layout === "offset") {
     return (
       <Reveal>
-        <article className="grid grid-cols-1 gap-6 py-10 md:grid-cols-12 md:gap-6 md:py-14">
+        <article
+          ref={highlightRef}
+          className="grid grid-cols-1 gap-6 py-10 md:grid-cols-12 md:gap-6 md:py-14"
+        >
           <div className="md:col-span-5 md:col-start-1">
             <Meta project={project} />
           </div>
@@ -112,6 +150,7 @@ export function ProjectItem({ project }: { project: Project }) {
   return (
     <Reveal>
       <article
+        ref={highlightRef}
         className={cn(
           "flex flex-col gap-6 py-10 md:py-14",
           project.draft && "opacity-90",

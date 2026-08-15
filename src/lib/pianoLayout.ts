@@ -8,6 +8,8 @@ export interface PianoKeyData {
   whiteIndex: number;
   /** computer-keyboard key that triggers this piano key, white keys only */
   shortcut?: string;
+  slug?: string;
+  color?: string;
 }
 
 const WHITE_STEPS = [0, 2, 4, 5, 7, 9, 11]; // C D E F G A B, within an octave
@@ -35,6 +37,8 @@ export function buildPianoLayout(technologies: Technology[]) {
       label: tech.name,
       whiteIndex: i,
       shortcut: SHORTCUTS[i],
+      slug: tech.slug,
+      color: tech.color,
     });
 
     const isLastKey = i === technologies.length - 1;

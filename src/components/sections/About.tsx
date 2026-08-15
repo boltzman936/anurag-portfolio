@@ -47,7 +47,7 @@ export function About() {
             <Reveal delay={0.15}>
               <a
                 href="#work"
-                className="group inline-flex items-center gap-2 font-mono text-xs tracking-[0.15em] text-fg uppercase"
+                className="group inline-flex items-center gap-2 font-mono text-xs tracking-[0.15em] text-secondary uppercase transition-colors hover:text-hover"
               >
                 More about me
                 <span className="transition-transform duration-300 group-hover:translate-x-1">

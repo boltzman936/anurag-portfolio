@@ -25,7 +25,9 @@ export function TechStack() {
 
         <Reveal delay={0.08}>
           <p className="mt-4 max-w-md text-sm text-secondary md:text-base">
-            Each key on this piano is a technology I use. Play one.
+            Every key represents something I build with.
+            <br />
+            Play it yourself.
           </p>
         </Reveal>
 
